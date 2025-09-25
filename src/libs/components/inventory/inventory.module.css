@@ -1,0 +1,49 @@
+.inventory-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 5 1 0;
+}
+
+.inventory-title {
+    font-weight: 700;
+    font-size: clamp(14px, 2.5vw, 18px);
+    color: rgb(102, 102, 102);
+    margin-bottom: 4px;
+    background: rgb(255, 255, 255);
+    padding: 4px 12px;
+    border-radius: 6px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgb(224, 224, 224);
+    border-image: initial;
+    white-space: nowrap;
+}
+
+.inventory-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow-y: auto;
+    padding: clamp(8px, 2vw, 15px) clamp(15px, 3vw, 30px);
+}
+
+.inventory {
+    width: 100%;
+    max-width: 100%;
+    display: grid;
+    justify-content: center;
+    align-content: start;
+    box-shadow: rgba(0, 0, 0, 0.05) 0 2px 4px inset;
+    gap: clamp(6px, 1.5vw, 12px);
+    padding: clamp(20px, 3vw, 25px) clamp(8px, 2vw, 16px) clamp(8px, 2vw, 16px);
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgb(224, 224, 224);
+    border-image: initial;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: grid-template-columns 0.2s;
+    grid-template-columns: repeat(9, 1fr);
+}

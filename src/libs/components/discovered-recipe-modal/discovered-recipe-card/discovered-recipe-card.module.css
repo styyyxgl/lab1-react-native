@@ -1,0 +1,145 @@
+.recipe-card {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid #28a745;
+    background: #f8fff9;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.recipe-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.recipe-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.result-icon {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.recipe-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.recipe-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 4px;
+    word-wrap: break-word;
+}
+
+.recipe-description {
+    font-size: 14px;
+    color: #666;
+    margin: 0 0 8px;
+    line-height: 1.4;
+}
+
+.status-badge {
+    background: #d4edda;
+    color: #155724;
+}
+
+.crafting-grid {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    background: rgb(250, 251, 252);
+}
+
+.crafting-row {
+    display: flex;
+    gap: 4px;
+}
+
+.ingredient-slot, .empty-slot {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgb(222, 226, 230);
+    border-image: initial;
+    border-radius: 6px;
+    background: rgb(255, 255, 255);
+}
+
+.empty-slot {
+    opacity: 1;
+    position: relative;
+    background: rgb(255, 255, 255);
+    border-width: 2px;
+    border-style: dashed;
+    border-color: rgb(173, 181, 189);
+    border-image: initial;
+}
+
+.empty-slot::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    transform: translate(-50%, -50%);
+    opacity: 0.4;
+    background: rgb(108, 117, 125);
+    border-radius: 50%;
+}
+
+.ingredient-slot {
+    border-color: rgb(40, 167, 69);
+    background: rgb(248, 255, 249);
+}
+
+.result-image {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.result-image, .ingredient-image {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.arrow {
+    font-size: 24px;
+    font-weight: 700;
+    color: rgb(102, 102, 102);
+    margin: 0 8px;
+}
+
+.result-slot {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgb(0, 123, 255);
+    border-image: initial;
+    border-radius: 8px;
+    background: rgb(231, 243, 255);
+}

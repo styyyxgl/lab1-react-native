@@ -1,0 +1,14 @@
+.cell {
+	width: 70px;
+	height: 70px;
+	background-color: green; /* TODO: color variable */
+	border-radius: 8px;
+	border: 2px solid #000; /* TODO: color variable */
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+.cell:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 6px 10px rgba(207, 212, 222, 1);
+}
