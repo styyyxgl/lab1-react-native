@@ -38,7 +38,8 @@ const useGameStore = create<
 >()(
 	persist(
 		(set, get) => ({
-			inventory: { items: [] } as Inventory,
+			// !!! Inventory теперь может содержать undefined
+			inventory: { items: [] as Array<Item | undefined> } as Inventory,
 			craftingTable: initialCraftingTable as CraftingTable,
 			baseItems: INITIAL_ITEMS,
 			unlockedItems: [] as AdvancedItem[],
@@ -56,7 +57,9 @@ const useGameStore = create<
 			removeFromInventory: (id: string) =>
 				set((state) => ({
 					inventory: {
-						items: state.inventory.items.filter((i) => i.id !== id),
+						items: state.inventory.items.filter(
+							(i): i is Item => i !== undefined && i.id !== id,
+						),
 					},
 				})),
 
@@ -86,12 +89,14 @@ const useGameStore = create<
 				set((state) => {
 					const newInventory = [...state.inventory.items];
 					const newCrafting = [...state.craftingTable];
+
 					let dragged: Item | undefined;
 
+					// 1. достаём предмет из исходного места
 					if (from.context === "inventory") {
 						dragged = newInventory[from.index];
 						if (!dragged) return state;
-						newInventory.splice(from.index, 1);
+						newInventory[from.index] = undefined;
 					} else {
 						dragged = newCrafting[from.index].item;
 						if (!dragged) return state;
@@ -101,25 +106,67 @@ const useGameStore = create<
 						};
 					}
 
+					// 2. кладём предмет в новое место
 					if (to.context === "inventory") {
-						if (to.index >= newInventory.length) newInventory.push(dragged);
-						else newInventory.splice(to.index, 0, dragged);
+						const target = newInventory[to.index];
+
+						if (target) {
+							// swap
+							if (from.context === "inventory") {
+								newInventory[from.index] = target;
+							} else {
+								newCrafting[from.index] = {
+									...newCrafting[from.index],
+									item: target,
+								};
+							}
+						}
+
+						newInventory[to.index] = dragged;
 					} else {
+						const target = newCrafting[to.index].item;
+
+						if (target) {
+							// swap
+							if (from.context === "inventory") {
+								newInventory[from.index] = target;
+							} else {
+								newCrafting[from.index] = {
+									...newCrafting[from.index],
+									item: target,
+								};
+							}
+						}
+
 						newCrafting[to.index] = { ...newCrafting[to.index], item: dragged };
 					}
 
+					// 3. чистим массив inventory от "undefined"
+					const cleanedInventory = newInventory.filter(
+						(item): item is Item => Boolean(item),
+					);
+
 					return {
 						...state,
-						inventory: { ...state.inventory, items: newInventory },
+						inventory: { ...state.inventory, items: cleanedInventory },
 						craftingTable: newCrafting,
 					};
 				}),
 
 			craftedItem: () => {
-				const { craftingTable, availableForCrafting, advancedCraftItems, finalCraftItem } = get();
+				const {
+					craftingTable,
+					availableForCrafting,
+					advancedCraftItems,
+					finalCraftItem,
+				} = get();
 				const currentSchema = craftingTable.map((slot) => slot.item ?? null);
 
-				const allRecipes = [...availableForCrafting, ...advancedCraftItems, ...finalCraftItem];
+				const allRecipes = [
+					...availableForCrafting,
+					...advancedCraftItems,
+					...finalCraftItem,
+				];
 
 				for (const recipe of allRecipes) {
 					const flatSchema = recipe.schema.flat();
